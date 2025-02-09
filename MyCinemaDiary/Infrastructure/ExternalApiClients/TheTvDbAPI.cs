@@ -4,7 +4,7 @@ using System.Text.Json;
 using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using MyCinemaDiary.Domain.Entities;
 
-namespace MyCinemaDiary.Domain.ExternalApiClients
+namespace MyCinemaDiary.Infrastructure.ExternalApiClients
 {
     public class TheTvDbAPI
     {

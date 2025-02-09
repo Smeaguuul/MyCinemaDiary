@@ -1,5 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MyCinemaDiary.Domain.ExternalApiClients;
+using MyCinemaDiary.Infrastructure.ExternalApiClients;
 
 namespace MyCinemaDiary;
 

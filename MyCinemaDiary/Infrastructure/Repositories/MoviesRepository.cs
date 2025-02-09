@@ -1,6 +1,6 @@
 ﻿using MyCinemaDiary.Domain.Entities;
 
-namespace MyCinemaDiary.Domain.Repositories
+namespace MyCinemaDiary.Infrastructure.Repositories
 {
     public interface MoviesRepository
     {
