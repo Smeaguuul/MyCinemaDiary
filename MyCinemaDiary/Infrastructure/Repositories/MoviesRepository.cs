@@ -1,13 +1,38 @@
-﻿using MyCinemaDiary.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using MyCinemaDiary.Domain.Entities;
+using MyCinemaDiary.Infrastructure.Data;
 
 namespace MyCinemaDiary.Infrastructure.Repositories
 {
-    public interface MoviesRepository
+    public class MoviesRepository : IMoviesRepository
     {
-        public List<Movie> GetMovies();
-        public Movie GetMovie(int id);
-        public void AddMovie(Movie movie);
-        public void UpdateMovie(Movie movie);
-        public void DeleteMovie(int id);
+        private readonly AppDBContext _dbContext;
+
+        public MoviesRepository(AppDBContext dBContext)
+        {
+            _dbContext = dBContext;
+        }
+
+        public async Task AddMovie(Movie movie)
+        {
+            _dbContext.Movies.Add(movie);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task RemoveMovie(Movie movie)
+        {
+            _dbContext.Movies.Remove(movie);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<Movie?> GetByIdAsync(int id)
+        {
+            return await _dbContext.Movies.FindAsync(id);
+        }
+
+        public async Task<IEnumerable<Movie>> GetAllAsync()
+        {
+            return await _dbContext.Movies.ToListAsync();
+        }
     }
 }

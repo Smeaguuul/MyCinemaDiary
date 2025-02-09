@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using MyCinemaDiary.API.Controllers;
+using MyCinemaDiary.Application;
 using MyCinemaDiary.Infrastructure.Data;
+using MyCinemaDiary.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +15,10 @@ builder.Services.AddDbContext<AppDBContext>(optionsBuilder =>
 {
     optionsBuilder.UseNpgsql(builder.Configuration["DbConnectionString"]!);
 });
+
+builder.Services.AddScoped<IMoviesRepository, MoviesRepository>();
+builder.Services.AddScoped<Movies>();
+builder.Services.AddScoped<MoviesController>();
 
 var app = builder.Build();
 

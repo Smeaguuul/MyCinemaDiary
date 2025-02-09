@@ -1,6 +1,6 @@
 @MyCinemaDiary_HostAddress = http://localhost:5253
 
-GET {{MyCinemaDiary_HostAddress}}/weatherforecast/
+GET {{MyCinemaDiary_HostAddress}}/movies/
 Accept: application/json
 
 ###

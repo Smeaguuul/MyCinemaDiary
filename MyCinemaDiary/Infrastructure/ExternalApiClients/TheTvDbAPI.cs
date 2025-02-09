@@ -50,7 +50,7 @@ namespace MyCinemaDiary.Infrastructure.ExternalApiClients
         }
 
 
-        protected JsonElement GetSecretsJson()
+        private JsonElement GetSecretsJson()
         {
             // Get the path to the solution directory
             string solutionDirectory = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\.."));

@@ -21,7 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="API\Controllers\" />
     <Folder Include="API\Models\" />
     <Folder Include="API\wwwroot\images\" />
     <Folder Include="Application\DTO%27s\" />

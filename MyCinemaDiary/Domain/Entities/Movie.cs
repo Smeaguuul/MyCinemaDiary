@@ -12,7 +12,6 @@
         public string PrimaryLanguage { get; set; }
         public string PrimaryType { get; set; }
         public string Status { get; set; }
-        public string Type { get; set; }
         public int Year { get; set; }
         public string Slug { get; set; }
         public string ImageUrl { get; set; }
