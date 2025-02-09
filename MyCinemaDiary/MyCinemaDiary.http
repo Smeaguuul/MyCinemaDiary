@@ -4,3 +4,29 @@ GET {{MyCinemaDiary_HostAddress}}/movies/?query=The+Godfather&limit=3
 Accept: application/json
 
 ###
+POST {{MyCinemaDiary_HostAddress}}/movies/
+Content-Type: application/json
+
+{
+    "id": 0,
+    "country": "usa",
+    "director": "Francis Ford Coppola",
+    "extendedTitle": "The Godfather: Part II (1974)",
+    "name": "The Godfather: Part II",
+    "firstAirTime": "1974-12-18",
+    "overview": "Michael Corleone ruthlessly expands the family's criminal empire amid flashbacks of his father Vito's rise from Sicilian orphan to New York godfather.",
+    "primaryLanguage": "eng",
+    "primaryType": "movie",
+    "status": "Released",
+    "year": 1974,
+    "slug": "the-godfather-part-ii",
+    "imageUrl": "https://artworks.thetvdb.com/banners/v4/movie/780/posters/6318849d18674.jpg",
+    "thumbnail": "https://artworks.thetvdb.com/banners/v4/movie/780/posters/6318849d18674_t.jpg",
+    "tvdbId": "780",
+    "imdbId": "tt0071562",
+    "tmdbId": "240",
+    "movieGenres": [
+        "Crime",
+        "Drama"
+    ]
+}

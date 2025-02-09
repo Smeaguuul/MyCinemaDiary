@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MyCinemaDiary.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20250209142931_InitialCreate")]
+    [Migration("20250209210530_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -94,10 +94,6 @@ namespace MyCinemaDiary.Infrastructure.Data.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("TvdbId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("text");
 

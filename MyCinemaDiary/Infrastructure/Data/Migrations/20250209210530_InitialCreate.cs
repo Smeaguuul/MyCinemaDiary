@@ -28,7 +28,6 @@ namespace MyCinemaDiary.Infrastructure.Data.Migrations
                     PrimaryLanguage = table.Column<string>(type: "text", nullable: false),
                     PrimaryType = table.Column<string>(type: "text", nullable: false),
                     Status = table.Column<string>(type: "text", nullable: false),
-                    Type = table.Column<string>(type: "text", nullable: false),
                     Year = table.Column<int>(type: "integer", nullable: false),
                     Slug = table.Column<string>(type: "text", nullable: false),
                     ImageUrl = table.Column<string>(type: "text", nullable: false),

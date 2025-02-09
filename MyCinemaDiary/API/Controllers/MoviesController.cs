@@ -37,5 +37,13 @@ namespace MyCinemaDiary.API.Controllers
             return movies;
         }
 
+        [HttpPost (Name = "Save Movie")]
+        public async Task<IActionResult> Post(Movie movie)
+        {
+            // Save the movie to the database
+            movie.FirstAirTime = movie.FirstAirTime.ToUniversalTime();
+            await _movies.SaveMovie(movie);
+            return Created();
+        }
     }
 }

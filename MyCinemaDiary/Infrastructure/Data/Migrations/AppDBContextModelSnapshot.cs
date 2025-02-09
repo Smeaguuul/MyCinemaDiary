@@ -94,10 +94,6 @@ namespace MyCinemaDiary.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<int>("Year")
                         .HasColumnType("integer");
 
