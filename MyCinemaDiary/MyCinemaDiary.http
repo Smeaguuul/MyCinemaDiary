@@ -1,6 +1,6 @@
 @MyCinemaDiary_HostAddress = http://localhost:5253
 
-GET {{MyCinemaDiary_HostAddress}}/movies/
+GET {{MyCinemaDiary_HostAddress}}/movies/?query=The+Godfather&limit=3
 Accept: application/json
 
 ###

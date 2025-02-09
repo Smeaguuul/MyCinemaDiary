@@ -21,17 +21,20 @@ namespace MyCinemaDiary.API.Controllers
         [HttpGet(Name = "GetMovies")]
         public async Task<IEnumerable<Movie>> Get()
         {
-            var movies = await _movies.SearchMovie("Lord of the rings", 2);
+            // Accessing query strings directly
+            var title = HttpContext.Request.Query["query"].ToString();
+            var limit = HttpContext.Request.Query["limit"].ToString();
+
+            // You can convert limit to an integer if needed
+            int resultLimit;
+            if (!int.TryParse(limit, out resultLimit))
+            {
+                resultLimit = 2; // Default value if parsing fails
+            }
+
+            var movies = await _movies.SearchMovie(title, resultLimit);
 
             return movies;
-
-            //return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            //{
-            //    Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            //    TemperatureC = Random.Shared.Next(-20, 55),
-            //    Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            //})
-            //.ToArray();
         }
 
     }
