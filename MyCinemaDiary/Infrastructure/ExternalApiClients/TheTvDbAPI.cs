@@ -1,6 +1,7 @@
 ﻿using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Text.Json;
+using System.IO;
 using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using MyCinemaDiary.Domain.Entities;
 
@@ -13,7 +14,18 @@ namespace MyCinemaDiary.Infrastructure.ExternalApiClients
 
         public async void initialize()
         {
-            BearerToken = await GetNewBearerTokenAsync();
+            string solutionDirectory = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\.."));
+            string filePath = Path.Combine(solutionDirectory, "MyCinemaDiary", "bearertoken.txt");
+            //Only gets new bearer token if the file does not exist
+            try 
+            { 
+                BearerToken = File.ReadAllText(filePath); 
+            }
+            catch (FileNotFoundException)
+            {
+                BearerToken = await GetNewBearerTokenAsync();
+                File.WriteAllText(filePath, BearerToken);
+            }
         }
         public async Task<JsonDocument> Search(string title, int results)
         {
