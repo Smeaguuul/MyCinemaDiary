@@ -34,5 +34,7 @@ namespace MyCinemaDiary.Infrastructure.Repositories
         {
             return await _dbContext.Movies.ToListAsync();
         }
+
+
     }
 }

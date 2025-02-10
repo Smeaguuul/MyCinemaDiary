@@ -30,3 +30,18 @@ Content-Type: application/json
         "Drama"
     ]
 }
+
+###
+POST {{MyCinemaDiary_HostAddress}}/users/
+Content-Type: application/json
+{
+    "Id": 1,
+    "Name": "John Doe",
+    "Username": "johndoe",
+    "Password": "securepassword123",
+    "DiaryEntries": []
+}
+
+###
+GET {{MyCinemaDiary_HostAddress}}/users/?id=1
+Accept: application/json

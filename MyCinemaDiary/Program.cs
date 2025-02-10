@@ -19,6 +19,9 @@ builder.Services.AddDbContext<AppDBContext>(optionsBuilder =>
 builder.Services.AddScoped<IMoviesRepository, MoviesRepository>();
 builder.Services.AddScoped<Movies>();
 builder.Services.AddScoped<MoviesController>();
+builder.Services.AddScoped<IUsersRepository, UsersRepository>();
+builder.Services.AddScoped<Users>();
+builder.Services.AddScoped<UsersController>();
 
 var app = builder.Build();
 
