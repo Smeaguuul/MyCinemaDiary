@@ -4,14 +4,19 @@ using System.Text.Json;
 using System.IO;
 using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using MyCinemaDiary.Domain.Entities;
+using MyCinemaDiary.Infrastructure.Services;
 
 namespace MyCinemaDiary.Infrastructure.ExternalApiClients
 {
     public class TheTvDbAPI
     {
-        private static readonly HttpClient HttpClient = new HttpClient();
-        private string BearerToken { get; set; }
+        private static HttpClientService HttpClient;
+        private string? BearerToken { get; set; }
 
+        public TheTvDbAPI(HttpClientService httpClientService)
+        {
+            HttpClient = httpClientService ?? throw new ArgumentNullException(nameof(httpClientService));
+        }
         public async void initialize()
         {
             string solutionDirectory = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\.."));
@@ -29,9 +34,9 @@ namespace MyCinemaDiary.Infrastructure.ExternalApiClients
         }
         public async Task<JsonDocument> Search(string title, int results)
         {
-            HttpClient.DefaultRequestHeaders.Clear();
-            HttpClient.DefaultRequestHeaders.Add("Accept", "application/json");
-            HttpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + BearerToken);
+            HttpClient.ClearAllHeaders();
+            HttpClient.SetDefaultHeader("Accept", "application/json");
+            HttpClient.SetDefaultHeader("Authorization", "Bearer " + BearerToken);
             title = title.Replace(" ", "+");
             var url = $"https://api4.thetvdb.com/v4/search?query={title}&limit={results}&type=movie";
 
@@ -49,13 +54,13 @@ namespace MyCinemaDiary.Infrastructure.ExternalApiClients
 
         private async Task<string> GetNewBearerTokenAsync()
         {
-            HttpClient.DefaultRequestHeaders.Clear();
-            HttpClient.DefaultRequestHeaders.Add("Accept", "application/json");
+            HttpClient.ClearAllHeaders();
+            HttpClient.SetDefaultHeader("Accept", "application/json");
             var apiKey = GetSecretsJson().GetProperty("tvdb_api_key").GetString();
             var obj = $"{{ \"apikey\": \"{apiKey}\" }}";
-            var content = new StringContent(obj, Encoding.UTF8, "application/json");
 
-            var response = await HttpClient.PostAsync("https://api4.thetvdb.com/v4/login", content);
+
+            var response = await HttpClient.PostAsync("https://api4.thetvdb.com/v4/login", obj);
             var jsonObject = JsonDocument.Parse(await response.Content.ReadAsStringAsync());
             var token = jsonObject.RootElement.GetProperty("data").GetProperty("token").GetString();
             return token;

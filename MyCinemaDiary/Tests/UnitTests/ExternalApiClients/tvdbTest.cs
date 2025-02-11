@@ -7,12 +7,12 @@ namespace MyCinemaDiary;
 public class tvdbTest
 {
     [TestMethod]
-    public async Task Search()
+    public async Task Search(TheTvDbAPI theTvDbAPI)
     {
         // Arrange
         var movieTitle = "Lord of the Rings";
         var movieCount = 2;
-        var tvdb = new TheTvDbAPI();
+        var tvdb = theTvDbAPI;
         tvdb.initialize();
 
         // Act

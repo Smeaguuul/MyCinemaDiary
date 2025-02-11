@@ -10,10 +10,10 @@ namespace MyCinemaDiary.Application
         private IMoviesRepository moviesRepository;
         private TheTvDbAPI theTvDbAPI;
 
-        public Movies(IMoviesRepository moviesRepository)
+        public Movies(IMoviesRepository moviesRepository, TheTvDbAPI theTvDbAPI)
         {
             this.moviesRepository = moviesRepository;
-            this.theTvDbAPI = new TheTvDbAPI();
+            this.theTvDbAPI = theTvDbAPI;
             this.theTvDbAPI.initialize();
         }
 
