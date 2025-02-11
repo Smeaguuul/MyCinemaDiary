@@ -27,6 +27,7 @@ namespace MyCinemaDiary.Domain.Entities
         {
             Movie movie = new Movie
             {
+                Country = GetStringProperty(movieElement, "country"),
                 Director = GetStringProperty(movieElement, "director"),
                 ExtendedTitle = GetStringProperty(movieElement, "extended_title"),
                 Name = GetStringProperty(movieElement, "name"),
