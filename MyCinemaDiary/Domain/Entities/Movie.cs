@@ -25,28 +25,66 @@ namespace MyCinemaDiary.Domain.Entities
 
         public static Movie Parse(JsonElement movieElement)
         {
-            var movie = new Movie
+            Movie movie = new Movie
             {
-                Country = movieElement.GetProperty("country").GetString(),
-                Director = movieElement.GetProperty("director").GetString(),
-                ExtendedTitle = movieElement.GetProperty("extended_title").GetString(),
-                Name = movieElement.GetProperty("name").GetString(),
-                FirstAirTime = movieElement.GetProperty("first_air_time").GetDateTime().ToUniversalTime(),
-                Overview = movieElement.GetProperty("overview").GetString(),
-                PrimaryLanguage = movieElement.GetProperty("primary_language").GetString(),
-                PrimaryType = movieElement.GetProperty("primary_type").GetString(),
-                Status = movieElement.GetProperty("status").GetString(),
-                Year = int.Parse(movieElement.GetProperty("year").GetString()),
-                Slug = movieElement.GetProperty("slug").GetString(),
-                ImageUrl = movieElement.GetProperty("image_url").GetString(),
-                Thumbnail = movieElement.GetProperty("thumbnail").GetString(),
-                TvdbId = movieElement.GetProperty("tvdb_id").GetString(),
-                ImdbId = movieElement.GetProperty("remote_ids").EnumerateArray().Where(element => element.GetProperty("sourceName").ToString().Equals("IMDB")).First().GetProperty("id").GetString(),
-                TmdbId = movieElement.GetProperty("remote_ids").EnumerateArray().Where(element => element.GetProperty("sourceName").ToString().Equals("TheMovieDB.com")).First().GetProperty("id").GetString(),
-                MovieGenres = movieElement.GetProperty("genres").EnumerateArray().Select(element => element.ToString()).ToList(),
+                Director = GetStringProperty(movieElement, "director"),
+                ExtendedTitle = GetStringProperty(movieElement, "extended_title"),
+                Name = GetStringProperty(movieElement, "name"),
+                FirstAirTime = GetDateTimeProperty(movieElement, "first_air_time"),
+                Overview = GetStringProperty(movieElement, "overview"),
+                PrimaryLanguage = GetStringProperty(movieElement, "primary_language"),
+                PrimaryType = GetStringProperty(movieElement, "primary_type"),
+                Status = GetStringProperty(movieElement, "status"),
+                Year = GetYearProperty(movieElement, "year"),
+                Slug = GetStringProperty(movieElement, "slug"),
+                ImageUrl = GetStringProperty(movieElement, "image_url"),
+                Thumbnail = GetStringProperty(movieElement, "thumbnail"),
+                TvdbId = GetStringProperty(movieElement, "tvdb_id"),
+                ImdbId = GetRemoteId(movieElement, "IMDB"),
+                TmdbId = GetRemoteId(movieElement, "TheMovieDB.com"),
+                MovieGenres = GetGenres(movieElement)
             };
 
             return movie;
+        }
+
+        private static string GetStringProperty(JsonElement element, string propertyName)
+        {
+            return element.TryGetProperty(propertyName, out JsonElement propertyElement)
+                ? propertyElement.GetString() ?? "Not found"
+                : "Not found";
+        }
+
+        private static DateTime GetDateTimeProperty(JsonElement element, string propertyName)
+        {
+            return element.TryGetProperty(propertyName, out JsonElement propertyElement)
+                ? propertyElement.GetDateTime().ToUniversalTime()
+                : DateTime.MinValue;
+        }
+
+        private static int GetYearProperty(JsonElement element, string propertyName)
+        {
+            return element.TryGetProperty(propertyName, out JsonElement propertyElement) && propertyElement.GetString() != null
+                ? int.Parse(propertyElement.GetString())
+                : 0;
+        }
+
+        private static string GetRemoteId(JsonElement element, string sourceName)
+        {
+            return element.TryGetProperty("remote_ids", out JsonElement remoteIdsElement)
+                ? remoteIdsElement.EnumerateArray()
+                    .FirstOrDefault(e => e.TryGetProperty("sourceName", out JsonElement sourceNameElement) && sourceNameElement.GetString() == sourceName)
+                    .TryGetProperty("id", out JsonElement idElement)
+                        ? idElement.GetString() ?? "Not found"
+                        : "Not found"
+                : "Not found";
+        }
+
+        private static List<string> GetGenres(JsonElement element)
+        {
+            return element.TryGetProperty("genres", out JsonElement genresElement)
+                ? genresElement.EnumerateArray().Select(e => e.ToString()).ToList()
+                : new List<string>();
         }
     }
 }

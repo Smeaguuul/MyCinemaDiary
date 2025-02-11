@@ -33,7 +33,7 @@ namespace MyCinemaDiary.Infrastructure.ExternalApiClients
             HttpClient.DefaultRequestHeaders.Add("Accept", "application/json");
             HttpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + BearerToken);
             title = title.Replace(" ", "+");
-            var url = $"https://api4.thetvdb.com/v4/search?query={title}&limit={results}";
+            var url = $"https://api4.thetvdb.com/v4/search?query={title}&limit={results}&type=movie";
 
             HttpResponseMessage response = await HttpClient.GetAsync(url);
             JsonDocument jsonObject;
