@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 MyCinemaDiary/secrets.json
 MyCinemaDiary/bearertoken.txt
+/MyCinemaDiary/wwwroot/img
