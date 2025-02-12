@@ -72,13 +72,20 @@ namespace MyCinemaDiary.Domain.Entities
 
         private static string GetRemoteId(JsonElement element, string sourceName)
         {
-            return element.TryGetProperty("remote_ids", out JsonElement remoteIdsElement)
+            string remoteId;
+            try { 
+            remoteId = element.TryGetProperty("remote_ids", out JsonElement remoteIdsElement)
                 ? remoteIdsElement.EnumerateArray()
                     .FirstOrDefault(e => e.TryGetProperty("sourceName", out JsonElement sourceNameElement) && sourceNameElement.GetString() == sourceName)
                     .TryGetProperty("id", out JsonElement idElement)
                         ? idElement.GetString() ?? "Not found"
                         : "Not found"
                 : "Not found";
+            } catch (Exception e)
+            {
+                remoteId = "Could not find " + sourceName;
+            }
+            return remoteId;
         }
 
         private static List<string> GetGenres(JsonElement element)

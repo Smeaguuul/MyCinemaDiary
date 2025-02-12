@@ -23,6 +23,7 @@ builder.Services.AddScoped<TheTvDbAPI>();
 builder.Services.AddScoped<IMoviesRepository, MoviesRepository>();
 builder.Services.AddScoped<Movies>();
 builder.Services.AddScoped<MoviesController>();
+builder.Services.AddScoped<MovieSearchController>();
 builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 builder.Services.AddScoped<Users>();
 builder.Services.AddScoped<UsersController>();
@@ -36,6 +37,9 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+// Enables static file serving:
+app.UseHttpsRedirection();
+app.UseStaticFiles();
 app.UseAuthorization();
 
 app.MapControllers();

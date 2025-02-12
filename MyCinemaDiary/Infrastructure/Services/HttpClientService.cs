@@ -81,5 +81,23 @@ namespace MyCinemaDiary.Infrastructure.Services
         {
             HttpClient.DefaultRequestHeaders.Clear();
         }
+
+        public async Task<byte[]> GetByteArrayAsync(string url)
+        {
+            if (string.IsNullOrEmpty(url))
+            {
+                throw new ArgumentException("URL cannot be null or empty", nameof(url));
+            }
+            try
+            {
+                byte[] imageBytes = await HttpClient.GetByteArrayAsync(url);
+                return imageBytes;
+            }
+            catch (HttpRequestException e)
+            {
+                Console.WriteLine($"Request error: {e.Message}");
+                throw;
+            }
+        }
     }
 }
