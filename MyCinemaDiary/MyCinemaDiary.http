@@ -47,5 +47,21 @@ Content-Type: application/json
 }
 
 ###
-GET {{MyCinemaDiary_HostAddress}}/users/?id=1
+GET {{MyCinemaDiary_HostAddress}}/users/?id=4
 Accept: application/json
+
+###  
+GET {{MyCinemaDiary_HostAddress}}/diaryentries/?movieId=1&userId=1
+Accept: application/json
+
+###
+Post {{MyCinemaDiary_HostAddress}}/diaryentries/
+Content-Type: application/json
+{
+    "Rating": 5,
+    "Review": "This is a great movie. I loved it!",
+    "Title": "Must watch film!",
+    "Date": "2021-01-01",
+    "UserId": 1,
+    "MovieId": 1
+}

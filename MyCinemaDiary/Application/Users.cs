@@ -6,7 +6,7 @@ namespace MyCinemaDiary.Application
 {
     public class Users
     {
-        private IUsersRepository usersRepository;
+        private readonly IUsersRepository usersRepository;
 
         public Users(IUsersRepository usersRepository)
         {

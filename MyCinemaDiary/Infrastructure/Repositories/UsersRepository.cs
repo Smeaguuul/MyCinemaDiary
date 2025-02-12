@@ -34,12 +34,5 @@ namespace MyCinemaDiary.Infrastructure.Repositories
         {
             return await _dbContext.Users.ToListAsync();
         }
-
-        public async Task AddEntry(User user, DiaryEntry diaryEntry)
-        {
-            user.DiaryEntries.Add(diaryEntry);
-            await _dbContext.SaveChangesAsync();
-        }
-
     }
 }

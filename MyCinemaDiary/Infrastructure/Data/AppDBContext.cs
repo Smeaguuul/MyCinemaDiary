@@ -14,6 +14,15 @@ namespace MyCinemaDiary.Infrastructure.Data
         {
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<DiaryEntry>()
+                .HasKey(e => e.Id);
+            modelBuilder.Entity<DiaryEntry>()
+                .Property(e => e.Id)
+                .ValueGeneratedOnAdd();
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
         //    var host = "192.168.1.131";

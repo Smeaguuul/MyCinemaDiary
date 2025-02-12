@@ -7,6 +7,7 @@
         public string Review { get; set; }
         public int Rating { get; set; }
         public DateTime Date { get; set; }
-        public Movie Movie { get; set; }
+        public Movie? Movie { get; set; }
+        public User? User { get; set; }
     }
 }

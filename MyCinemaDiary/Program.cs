@@ -27,7 +27,9 @@ builder.Services.AddScoped<MovieSearchController>();
 builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 builder.Services.AddScoped<Users>();
 builder.Services.AddScoped<UsersController>();
-
+builder.Services.AddScoped<IDiaryEntriesRepository, DiaryEntriesRepository>();
+builder.Services.AddScoped<DiaryEntries>();
+builder.Services.AddScoped<DiaryEntriesController>();
 
 var app = builder.Build();
 
