@@ -20,28 +20,36 @@ namespace MyCinemaDiary.API.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<IEnumerable<DiaryEntry>> Get()
+        public async Task<IEnumerable<DiaryEntry>?> Get()
         {
-            var movieIdQuery = HttpContext.Request.Query["movieId"].ToString();
-            var userIdQuery = HttpContext.Request.Query["userId"].ToString();
+            var userId = int.Parse(User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value);
 
-            var searchByMovie = int.TryParse(movieIdQuery, out var movieId);
-            var searchByUser = int.TryParse(userIdQuery, out var userId);
-            IEnumerable<DiaryEntry> entries = [];
-            if (searchByMovie && searchByUser)
+            if (userId == 0)
             {
-                entries = await _diaryEntries.GetByMovieAndUserId(movieId, userId);
-            }
-            else if (searchByUser)
-            {
-                entries = await _diaryEntries.GetByUserId(userId);
-            }
-            else if (searchByMovie)
-            {
-                entries = await _diaryEntries.GetByMovieId(movieId);
+                return null;
             }
 
-            return entries;
+            return await _diaryEntries.GetByUserId(userId);
+            //var movieIdQuery = HttpContext.Request.Query["movieId"].ToString();
+            //var userIdQuery = HttpContext.Request.Query["userId"].ToString();
+
+            //var searchByMovie = int.TryParse(movieIdQuery, out var movieId);
+            //var searchByUser = int.TryParse(userIdQuery, out var userId);
+            //IEnumerable<DiaryEntry> entries = [];
+            //if (searchByMovie && searchByUser)
+            //{
+            //    entries = await _diaryEntries.GetByMovieAndUserId(movieId, userId);
+            //}
+            //else if (searchByUser)
+            //{
+            //    entries = await _diaryEntries.GetByUserId(userId);
+            //}
+            //else if (searchByMovie)
+            //{
+            //    entries = await _diaryEntries.GetByMovieId(movieId);
+            //}
+
+            //return entries;
         }
 
         [Authorize]

@@ -27,7 +27,8 @@ namespace MyCinemaDiary.Infrastructure.Repositories
 
         public async Task<IEnumerable<DiaryEntry?>> GetByUserId(int id)
         {
-            return await _dbContext.DiaryEntries.Where((entry) => entry.User.Id == id).ToListAsync();
+            // Eager loading is used to get the movies aswell.
+            return await _dbContext.DiaryEntries.Include(e => e.Movie).Where((entry) => entry.User.Id == id).ToListAsync();
         }
 
         public async Task<IEnumerable<DiaryEntry?>> GetByMovieId(int id)
