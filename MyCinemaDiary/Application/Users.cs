@@ -35,7 +35,7 @@ namespace MyCinemaDiary.Application
             await usersRepository.Register(user);
         }
 
-        public async Task<User> Login(string username, string password)
+        public async Task<User?> Login(string username, string password)
         {
             var user = await usersRepository.GetByUsernameAsync(username);
             

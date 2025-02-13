@@ -19,7 +19,7 @@ namespace MyCinemaDiary.API.Controllers
         }
 
         [Authorize]
-        [HttpGet(Name = "SearchEntries")]
+        [HttpGet]
         public async Task<IEnumerable<DiaryEntry>> Get()
         {
             var movieIdQuery = HttpContext.Request.Query["movieId"].ToString();
@@ -45,7 +45,7 @@ namespace MyCinemaDiary.API.Controllers
         }
 
         [Authorize]
-        [HttpPost(Name = "Save Diaryentry")]
+        [HttpPost("Save")]
         public async Task<IActionResult> Post([FromBody] DiaryEntryModel diaryEntryModel)
         {
             var userId = int.Parse(User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value);

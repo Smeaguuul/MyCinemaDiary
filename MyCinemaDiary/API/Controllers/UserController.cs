@@ -46,6 +46,11 @@ namespace MyCinemaDiary.API.Controllers
             var password = loginRequest.Password;
             var user = await _users.Login(username, password);
 
+            if (user == null)
+            {
+                return Unauthorized("Invalid username or password");
+            }
+
             // Generate a JWT token
             var token = GenerateJwtToken(user);
 
