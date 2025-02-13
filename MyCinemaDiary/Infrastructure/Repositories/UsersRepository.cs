@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MyCinemaDiary.Domain.Entities;
 using MyCinemaDiary.Infrastructure.Data;
 
@@ -13,10 +14,27 @@ namespace MyCinemaDiary.Infrastructure.Repositories
             _dbContext = dBContext;
         }
 
-        public async Task AddUser(User user)
+        public async Task Register(User user)
         {
-            _dbContext.Users.Add(user);
+            try
+            {
+                _dbContext.Users.Add(user);
+            }
+            catch (Exception e)
+            {
+                throw new Exception("User cant be added!");
+            }
             await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<User> GetByUsernameAsync(string username)
+        {
+            var user = await _dbContext.Users.SingleOrDefaultAsync(u => u.Username == username);
+            if (user == null)
+            {
+                throw new Exception("User not found");
+            }
+            return user;
         }
 
         public async Task RemoveUser(User user)

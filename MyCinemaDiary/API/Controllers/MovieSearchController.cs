@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MyCinemaDiary.Application;
 using MyCinemaDiary.Domain.Entities;
 
@@ -16,6 +18,7 @@ namespace MyCinemaDiary.API.Controllers
             _movies = movies;
         }
 
+        [Authorize] // Authorize so random "user" can't abuse the API call
         [HttpGet(Name = "SearchMovies")]
         public async Task<IEnumerable<Movie>> Get()
         {

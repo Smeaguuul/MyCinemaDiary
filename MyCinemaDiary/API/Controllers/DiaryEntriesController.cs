@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MyCinemaDiary.API.Models;
 using MyCinemaDiary.Application;
 using MyCinemaDiary.Domain.Entities;
@@ -17,6 +18,7 @@ namespace MyCinemaDiary.API.Controllers
             _diaryEntries = diaryEntries;
         }
 
+        [Authorize]
         [HttpGet(Name = "SearchEntries")]
         public async Task<IEnumerable<DiaryEntry>> Get()
         {
@@ -42,12 +44,18 @@ namespace MyCinemaDiary.API.Controllers
             return entries;
         }
 
+        [Authorize]
         [HttpPost(Name = "Save Diaryentry")]
         public async Task<IActionResult> Post([FromBody] DiaryEntryModel diaryEntryModel)
         {
+            var userId = int.Parse(User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value);
             if (diaryEntryModel == null)
             {
                 return BadRequest("Diary entry model is null.");
+            }
+            if (diaryEntryModel.UserId != userId)
+            {
+                return Unauthorized("You can only add diary entries for yourself.");
             }
 
             var diaryEntry = new DiaryEntry
