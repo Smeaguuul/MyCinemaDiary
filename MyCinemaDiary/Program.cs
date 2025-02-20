@@ -10,6 +10,7 @@ using MyCinemaDiary.Infrastructure.Repositories;
 using MyCinemaDiary.Infrastructure.Services;
 using System.Text.Json;
 using System.IdentityModel.Tokens.Jwt;
+using MyCinemaDiary.Tests.UnitTests.Infrastructure.ExternalApiClients;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +35,9 @@ builder.Services.AddScoped<Users>();
 builder.Services.AddScoped<IDiaryEntriesRepository, DiaryEntriesRepository>();
 builder.Services.AddScoped<DiaryEntries>();
 builder.Services.AddScoped<DiaryEntriesController>();
+
+// Tests
+//builder.Services.AddScoped<tvdbTest>();
 
 // Configuring JWT authentication
 var key = Encoding.UTF8.GetBytes(getJWTKey());
