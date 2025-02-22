@@ -8,21 +8,21 @@ namespace MyCinemaDiary.Application
 {
     public class Movies
     {
-        private IMoviesRepository moviesRepository;
-        private TheTvDbAPI theTvDbAPI;
-        private HttpClientService httpClientService;
+        private IMoviesRepository _moviesRepository;
+        private TheTvDbAPI _theTvDbAPI;
+        private HttpClientService _httpClientService;
 
         public Movies(IMoviesRepository moviesRepository, TheTvDbAPI theTvDbAPI, HttpClientService httpClientService)
         {
-            this.httpClientService = httpClientService;
-            this.moviesRepository = moviesRepository;
-            this.theTvDbAPI = theTvDbAPI;
-            this.theTvDbAPI.initialize();
+            _httpClientService = httpClientService;
+            _moviesRepository = moviesRepository;
+            _theTvDbAPI = theTvDbAPI;
+            _theTvDbAPI.initialize();
         }
 
         public async Task<List<Movie>> SearchMovie(string title, int amount)
         {
-            var searchResults = await theTvDbAPI.Search(title, amount);
+            var searchResults = await _theTvDbAPI.Search(title, amount);
             var movies = new List<Movie>();
             foreach (var result in searchResults.RootElement.GetProperty("data").EnumerateArray())
             {
@@ -37,8 +37,8 @@ namespace MyCinemaDiary.Application
             // Download the thumbnail and image
             var movieThumbnail = movie.Thumbnail;
             var movieImage = movie.ImageUrl;
-            byte[] thumbnailBytes = await httpClientService.GetByteArrayAsync(movieThumbnail);
-            byte[] imageBytes = await httpClientService.GetByteArrayAsync(movieImage);
+            byte[] thumbnailBytes = await _httpClientService.GetByteArrayAsync(movieThumbnail);
+            byte[] imageBytes = await _httpClientService.GetByteArrayAsync(movieImage);
 
             // Save the thumbnail and image to the wwwroot/images folder
             var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img");
@@ -51,12 +51,12 @@ namespace MyCinemaDiary.Application
             movie.Thumbnail = thumbnailName;
             movie.ImageUrl = imageName;
 
-            await moviesRepository.AddMovie(movie);
+            await _moviesRepository.AddMovie(movie);
         }
 
         public async Task<List<Movie>> GetMovies(string title, int amount)
         {
-            var movies = await moviesRepository.GetAllAsync();
+            var movies = await _moviesRepository.GetAllAsync();
             return movies.ToList();
         }
     }
