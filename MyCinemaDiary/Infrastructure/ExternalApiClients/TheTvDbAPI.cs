@@ -42,7 +42,7 @@ namespace MyCinemaDiary.Infrastructure.ExternalApiClients
 
             HttpResponseMessage response = await HttpClient.GetAsync(url);
             JsonDocument jsonObject;
-            // Gets a new bearer token if the current one is invalid/out of date
+            // Gets a new bearer token if the current one is invalid/out of date. And then tries again.
             if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
             {
                 BearerToken = await GetNewBearerTokenAsync();
