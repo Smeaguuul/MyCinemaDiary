@@ -33,12 +33,12 @@ namespace MyCinemaDiary.Infrastructure.Repositories
 
         public async Task<IEnumerable<DiaryEntry?>> GetByMovieId(int id)
         {
-            return await _dbContext.DiaryEntries.Where((entry) => entry.Movie.Id == id).ToListAsync();
+            return await _dbContext.DiaryEntries.Include(e => e.User).Where(entry => entry.Movie.Id == id).ToListAsync();
         }
 
         public async Task<IEnumerable<DiaryEntry?>> GetByMovieAndUserId(int movieId, int userId)
         {
-            return await _dbContext.DiaryEntries.Where((entry) => entry.Movie.Id == movieId && entry.User.Id == userId).ToListAsync();
+            return await _dbContext.DiaryEntries.Include(e => e.Movie).Include(e => e.User).Where((entry) => entry.Movie.Id == movieId && entry.User.Id == userId).ToListAsync();
 
         }
 

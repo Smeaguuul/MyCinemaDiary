@@ -20,16 +20,38 @@ namespace MyCinemaDiary.API.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<IEnumerable<DiaryEntry>?> Get()
+        public async Task<IActionResult> Get()
         {
-            var userId = int.Parse(User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value);
+            var movieId = HttpContext.Request.Query["movieId"].ToString();
+            var userId = HttpContext.Request.Query["userId"].ToString();
 
-            if (userId == 0)
+            IEnumerable<DiaryEntry?> diaryEntries;
+            // Either you get the user from the token or from the query.
+            // If not userId is provided in the query, the user just gets their own diary entries.
+            if (movieId != "" && userId != "")
             {
-                return null;
+                if (!int.TryParse(movieId, out int movieIdInt)) return BadRequest("MovieId is not a number");
+                if (!int.TryParse(userId, out int userIdInt)) return BadRequest("UserId is not a number");
+                diaryEntries = await _diaryEntries.GetByMovieAndUserId(movieIdInt, userIdInt);
+            }
+            else if (userId != "")
+            {
+                if (!int.TryParse(userId, out int userIdInt)) return BadRequest("UserId is not a number");
+                diaryEntries = await _diaryEntries.GetByUserId(userIdInt);
+            }
+            else if (movieId != "")
+            {
+                if (!int.TryParse(movieId, out int movieIdInt)) return BadRequest("MovieId is not a number");
+                diaryEntries = await _diaryEntries.GetByMovieId(movieIdInt);
+            }
+            else
+            {
+                if (!int.TryParse(User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value, out int currentUserId)) return BadRequest("UserId is not valid.");
+
+                diaryEntries = await _diaryEntries.GetByUserId(currentUserId);
             }
 
-            return await _diaryEntries.GetByUserId(userId);
+            return Ok(diaryEntries); //Can return empty list
         }
 
         [Authorize]
