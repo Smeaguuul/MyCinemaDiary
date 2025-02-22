@@ -78,7 +78,6 @@ Content-Type: application/json
     "Review": "This is a great movie. I loved it!",
     "Title": "Must watch film!",
     "Date": "2021-01-01",
-    "UserId": 7,
     "MovieId": 1
 }
 
@@ -91,6 +90,5 @@ Content-Type: application/json
     "Review": "Wow is this a great movie. I loved it!",
     "Title": "Must watch film!",
     "Date": "2024-01-01",
-    "UserId": 7,
     "MovieId": 1
 }
