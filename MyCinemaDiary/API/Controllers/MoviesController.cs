@@ -55,5 +55,18 @@ namespace MyCinemaDiary.API.Controllers
             await _movies.SaveMovie(movie);
             return Created();
         }
+
+        [HttpGet("latest")]
+        public async Task<IEnumerable<Movie>> GetLatestMovies()
+        {
+            var count = HttpContext.Request.Query["count"].ToString();
+            int movieCount;
+            if (!int.TryParse(count, out movieCount))
+            {
+                movieCount = 2;
+            }
+            var movies = await _movies.GetLatestMovies(movieCount);
+            return movies;
+        }
     }
 }

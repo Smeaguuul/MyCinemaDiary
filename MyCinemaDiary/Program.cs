@@ -83,9 +83,14 @@ app.Run();
 
 string getJWTKey()
 {
-    string solutionDirectory = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\.."));
+    string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "secrets.json");
 
-    string filePath = Path.Combine(solutionDirectory, "MyCinemaDiary", "secrets.json");
+    // Check if the file exists
+    if (!File.Exists(filePath))
+    {
+        throw new FileNotFoundException($"The secrets.json file was not found at {filePath}");
+    }
+
     StreamReader reader = new(filePath);
     var text = reader.ReadToEnd();
 

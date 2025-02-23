@@ -8,5 +8,6 @@ namespace MyCinemaDiary.Infrastructure.Repositories
         Task<IEnumerable<Movie>> GetAllAsync();
         Task<Movie?> GetByIdAsync(int id);
         Task RemoveMovie(Movie movie);
+        Task<IEnumerable<Movie>> GetLatestMovies(int amount);
     }
 }

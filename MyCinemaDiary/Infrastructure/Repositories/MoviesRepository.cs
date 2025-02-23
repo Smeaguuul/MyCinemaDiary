@@ -35,6 +35,9 @@ namespace MyCinemaDiary.Infrastructure.Repositories
             return await _dbContext.Movies.ToListAsync();
         }
 
-
+        public async Task<IEnumerable<Movie>> GetLatestMovies(int amount)
+        {
+            return _dbContext.Movies.OrderByDescending(x => x.Id).Take(amount).ToList();
+        }
     }
 }

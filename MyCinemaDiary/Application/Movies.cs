@@ -64,5 +64,11 @@ namespace MyCinemaDiary.Application
             var movies = await _moviesRepository.GetAllAsync();
             return movies.ToList();
         }
+
+        public async Task<List<Movie>> GetLatestMovies(int amount)
+        {
+            var movies = await _moviesRepository.GetLatestMovies(amount);
+            return movies.ToList();
+        }
     }
 }

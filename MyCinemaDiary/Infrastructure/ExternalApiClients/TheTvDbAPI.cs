@@ -19,8 +19,7 @@ namespace MyCinemaDiary.Infrastructure.ExternalApiClients
         }
         public async void initialize()
         {
-            string solutionDirectory = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\.."));
-            string filePath = Path.Combine(solutionDirectory, "MyCinemaDiary", "bearertoken.txt");
+            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bearertoken.txt");            
             //Only gets new bearer token if the file does not exist
             try 
             { 
@@ -45,7 +44,7 @@ namespace MyCinemaDiary.Infrastructure.ExternalApiClients
             // Gets a new bearer token if the current one is invalid/out of date. And then tries again.
             if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
             {
-                BearerToken = await GetNewBearerTokenAsync();
+                BearerToken = await GetNewBearerTokenAsync(); // TODO Make new bearertoken saved in file.
                 jsonObject = await Search(title, results);
             }
             else jsonObject = JsonDocument.Parse(await response.Content.ReadAsStringAsync());
@@ -70,10 +69,14 @@ namespace MyCinemaDiary.Infrastructure.ExternalApiClients
         private JsonElement GetSecretsJson()
         {
             // Get the path to the solution directory
-            string solutionDirectory = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\.."));
+            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "secrets.json");
 
-            // Combine the solution directory with the file name
-            string filePath = Path.Combine(solutionDirectory, "MyCinemaDiary", "secrets.json");
+            // Check if the file exists
+            if (!File.Exists(filePath))
+            {
+                throw new FileNotFoundException($"The secrets.json file was not found at {filePath}");
+            }
+
             StreamReader reader = new(filePath);
             var text = reader.ReadToEnd();
 
