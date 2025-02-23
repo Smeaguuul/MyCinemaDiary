@@ -54,6 +54,11 @@ namespace MyCinemaDiary.Application
             await _moviesRepository.AddMovie(movie);
         }
 
+        public async Task<Movie?> GetMovie(int id)
+        {
+            return await _moviesRepository.GetByIdAsync(id);
+        }
+
         public async Task<List<Movie>> GetMovies(string title, int amount)
         {
             var movies = await _moviesRepository.GetAllAsync();

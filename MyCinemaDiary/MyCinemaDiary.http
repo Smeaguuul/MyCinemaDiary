@@ -8,7 +8,9 @@ Accept: application/json
 GET {{MyCinemaDiary_HostAddress}}/movies/
 Accept: application/json
 
-
+###
+GET {{MyCinemaDiary_HostAddress}}/movies/movie?id=1
+Accept: application/json
 
 ###
 POST {{MyCinemaDiary_HostAddress}}/movies/
@@ -59,8 +61,8 @@ Content-Type: application/json
 
 
 ###  
-GET {{MyCinemaDiary_HostAddress}}/diaryentries/?movieId=1&userId=7
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2huZG9lIiwianRpIjoiOWFlZjg5M2MtOTIwOS00MmQ1LTg5OWEtMTYzYzEwOTBlNTJlIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiI3IiwiZXhwIjoxNzQwMjQ2NzMyfQ.HgYgKpGbytKZ8HxC80c_U5TnV6AJ5PaNTxU-r8joJQg
+GET {{MyCinemaDiary_HostAddress}}/diaryentries?movieId=1&userId=7
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2huZG9lIiwianRpIjoiNzY3ZTg2MmUtZDIyYy00NWJmLTgyODgtZDZhMjhiNWQ3YjM3IiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiI3IiwiZXhwIjoxNzQwMzExOTk3fQ.SbK2YyLPXIfYzRpOlOUlebWRC_82m993BKhdk-PyeEg
 Accept: application/json
 
 ###  

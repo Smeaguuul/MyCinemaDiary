@@ -30,9 +30,21 @@ namespace MyCinemaDiary.API.Controllers
             }
 
             var movies = await _movies.GetMovies(title, resultLimit);
-            //var movies = await _movies.SearchMovie(title, resultLimit);
 
             return movies;
+        }
+
+        [HttpGet("movie")]
+        public async Task<IActionResult> GetById()
+        {
+            var id = HttpContext.Request.Query["id"].ToString();
+            if (!int.TryParse(id, out int movieId))
+            {
+                return BadRequest("MovieId not provided.");
+            }
+
+            var movie = await _movies.GetMovie(movieId);
+            return Ok(movie);
         }
 
         [HttpPost(Name = "Save Movie")]
