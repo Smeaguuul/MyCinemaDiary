@@ -83,7 +83,7 @@ namespace MyCinemaDiary.Domain.Entities
                 : "Not found";
             } catch (Exception e)
             {
-                remoteId = "Could not find " + sourceName;
+                remoteId = "Could not find " + sourceName; //Bad!
             }
             return remoteId;
         }

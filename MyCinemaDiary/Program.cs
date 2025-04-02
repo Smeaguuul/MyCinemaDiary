@@ -11,6 +11,7 @@ using MyCinemaDiary.Infrastructure.Services;
 using System.Text.Json;
 using System.IdentityModel.Tokens.Jwt;
 using MyCinemaDiary.Tests.UnitTests.Infrastructure.ExternalApiClients;
+using MyCinemaDiary.Domain.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,13 +27,15 @@ builder.Services.AddDbContext<AppDBContext>(optionsBuilder =>
 
 builder.Services.AddSingleton<HttpClientService>();
 builder.Services.AddScoped<TheTvDbAPI>();
-builder.Services.AddScoped<IMoviesRepository, MoviesRepository>();
+
+builder.Services.AddScoped<IRepository<Movie>, Repository<Movie>>();
+builder.Services.AddScoped<IRepository<User>, Repository<User>>();
+builder.Services.AddScoped<IRepository<DiaryEntry>, Repository<DiaryEntry>>();
+
 builder.Services.AddScoped<Movies>();
 builder.Services.AddScoped<MoviesController>();
 builder.Services.AddScoped<MovieSearchController>();
-builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 builder.Services.AddScoped<Users>();
-builder.Services.AddScoped<IDiaryEntriesRepository, DiaryEntriesRepository>();
 builder.Services.AddScoped<DiaryEntries>();
 builder.Services.AddScoped<DiaryEntriesController>();
 

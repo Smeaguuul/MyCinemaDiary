@@ -8,11 +8,11 @@ namespace MyCinemaDiary.Application
 {
     public class Movies
     {
-        private IMoviesRepository _moviesRepository;
+        private IRepository<Movie> _moviesRepository;
         private TheTvDbAPI _theTvDbAPI;
         private HttpClientService _httpClientService;
 
-        public Movies(IMoviesRepository moviesRepository, TheTvDbAPI theTvDbAPI, HttpClientService httpClientService)
+        public Movies(IRepository<Movie> moviesRepository, TheTvDbAPI theTvDbAPI, HttpClientService httpClientService)
         {
             _httpClientService = httpClientService;
             _moviesRepository = moviesRepository;
@@ -51,12 +51,12 @@ namespace MyCinemaDiary.Application
             movie.Thumbnail = thumbnailName;
             movie.ImageUrl = imageName;
 
-            await _moviesRepository.AddMovie(movie);
+            await _moviesRepository.AddAsync(movie);
         }
 
         public async Task<Movie?> GetMovie(int id)
         {
-            return await _moviesRepository.GetByIdAsync(id);
+            return await _moviesRepository.FirstOrDefaultAsync(movie => movie.Id == id);
         }
 
         public async Task<List<Movie>> GetMovies(string title, int amount)
@@ -67,7 +67,7 @@ namespace MyCinemaDiary.Application
 
         public async Task<List<Movie>> GetLatestMovies(int amount)
         {
-            var movies = await _moviesRepository.GetLatestMovies(amount);
+            var movies = await _moviesRepository.GetAllAsync(1, amount, orderBy: q => q.OrderByDescending(movie => movie.FirstAirTime));
             return movies.ToList();
         }
     }

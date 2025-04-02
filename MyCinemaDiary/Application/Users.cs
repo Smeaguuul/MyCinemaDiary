@@ -10,9 +10,9 @@ namespace MyCinemaDiary.Application
 {
     public class Users
     {
-        private readonly IUsersRepository usersRepository;
+        private readonly IRepository<User> usersRepository;
 
-        public Users(IUsersRepository usersRepository)
+        public Users(IRepository<User> usersRepository)
         {
             this.usersRepository = usersRepository;
         }
@@ -29,9 +29,9 @@ namespace MyCinemaDiary.Application
             };
             try
             {
-                await usersRepository.Register(user);
+                await usersRepository.AddAsync(user);
             }
-            catch (Exception)
+            catch (RepositoryException)
             {
                 throw new Exception("Username needs to be unique!");
             }
@@ -39,7 +39,7 @@ namespace MyCinemaDiary.Application
 
         public async Task<string> Login(string username, string password)
         {
-            var user = await usersRepository.GetByUsernameAsync(username);
+            var user = await usersRepository.FirstOrDefaultAsync(predicate: user => user.Username == username);
 
             if (user == null)
             {
