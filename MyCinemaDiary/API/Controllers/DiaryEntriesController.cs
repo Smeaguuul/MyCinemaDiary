@@ -26,8 +26,9 @@ namespace MyCinemaDiary.API.Controllers
             var userId = HttpContext.Request.Query["userId"].ToString();
 
             IEnumerable<DiaryEntry?> diaryEntries;
+            // TODO Move logic lower
             // Either you get the user from the token or from the query.
-            // If not userId is provided in the query, the user just gets their own diary entries.
+            // If userId is not provided in the query, the user just gets their own diary entries.
             if (movieId != "" && userId != "")
             {
                 if (!int.TryParse(movieId, out int movieIdInt)) return BadRequest("MovieId is not a number");
